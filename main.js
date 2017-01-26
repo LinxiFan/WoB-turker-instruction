@@ -5,7 +5,8 @@ var templates = [],
     NUM_ROW = 5,
     BodyNode = document.getElementsByTagName('body')[0], 
     ArgTableNode,
-    BulletListNode;
+    BulletListNode,
+    TableCache = {}; // cache already entered text
 
 function parse() {
     if (ArgTableNode) {
@@ -18,17 +19,17 @@ function parse() {
     }
 
     var website = document.TurkerInput.Website.value;
-    var is_valid = get_templates(document.TurkerInput.Question);
+    var is_valid = getTemplates(document.TurkerInput.Question);
     console.log(website);
     console.log(templates);
     if (!is_valid)
         return false;
 
-    create_table_form();
+    createTableForm();
     return true;
 }
 
-function get_templates(question) {
+function getTemplates(question) {
     var reg = /\(([^)]+)\)/g;
     var qu = question.value;
     var matches = qu.match(reg);
@@ -41,15 +42,15 @@ function get_templates(question) {
     matches.forEach(
         function (s) { templates.push(s.slice(1, -1)); }
     );
-    templateText = qu.replace(reg, '{}');
+    templateText = qu.replace(reg, '<i><b>{}</b></i>');
     return true;
 }
 
-function create_table_form() {
+function createTableForm() {
     // table for question template instantiation
     ArgTableNode = createNode('form', BodyNode,
                           ['name', 'ArgTable', 
-                          'onsubmit', 'submitTable(); return false;']);
+                          'onsubmit', 'previewTable(); return false;']);
 
     var table = createNode('table', ArgTableNode);
     //table.setAttribute('border', '1');
@@ -68,24 +69,30 @@ function create_table_form() {
                                        ['type', 'text', 
                                        'name', 'input-'+r+'-'+c, 
                                        'style', 'width:250px']);
+            if (templates[c] in TableCache)
+                inputnode.value = TableCache[templates[c]][r];
         }
     }
     var div = createNode('div', table);
     addNewLine(div);
     var button = createNode('button', div, ['type', 'submit']);
-    addTextNode(button, 'Submit');
+    addTextNode(button, 'Preview completed questions');
 }
 
-function submitTable() {
+function previewTable() {
     if (BulletListNode) {
         BodyNode.removeChild(BulletListNode);
         BulletListNode = undefined;
     }
+    for (var c = 0; c < templates.length; c++)
+        TableCache[templates[c]] = [];
     var matrix = [];
     for (var r = 0; r < NUM_ROW; r++) {
         var row = [];
         for (var c = 0; c < templates.length; c++) {
-            row.push(document.ArgTable['input-'+r+'-'+c].value);
+            var val = document.ArgTable['input-'+r+'-'+c].value;
+            row.push(val);
+            TableCache[templates[c]].push(val);
         }
         matrix.push(row);
     }
@@ -94,7 +101,8 @@ function submitTable() {
     BulletListNode = createNode('ul', BodyNode);
     for (var r = 0; r < NUM_ROW; r++) {
         var entry = createNode('li', BulletListNode);
-        addTextNode(entry, strformat(templateText, ...matrix[r]));
+        entry.innerHTML = strformat(templateText, ...matrix[r]);
+        // addTextNode(entry, strformat(templateText, ...matrix[r]));
     }
 }
 
