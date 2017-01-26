@@ -50,7 +50,7 @@ function createTableForm() {
     // table for question template instantiation
     ArgTableNode = createNode('form', BodyNode,
                           ['name', 'ArgTable', 
-                          'onsubmit', 'previewTable(); return false;']);
+                          'onsubmit', 'submitForm(); return false;']);
 
     var table = createNode('table', ArgTableNode);
     //table.setAttribute('border', '1');
@@ -75,8 +75,10 @@ function createTableForm() {
     }
     var div = createNode('div', table);
     addNewLine(div);
-    var button = createNode('button', div, ['type', 'submit']);
+    var button = createNode('button', div, ['type', 'button', 'onclick', 'previewTable()']);
     addTextNode(button, 'Preview completed questions');
+    var button2 = createNode('button', div, ['type', 'submit']);
+    addTextNode(button2, 'Submit');
 }
 
 function previewTable() {
@@ -104,6 +106,12 @@ function previewTable() {
         entry.innerHTML = strformat(templateText, ...matrix[r]);
         // addTextNode(entry, strformat(templateText, ...matrix[r]));
     }
+    return matrix;
+}
+
+function submitForm() {
+    var matrix = previewTable();
+    alert('You have successfully submitted the form! Thanks!');
 }
 
 function createNode(name, ancestor, attrs) {
