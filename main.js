@@ -42,7 +42,7 @@ function getTemplates(question) {
     matches.forEach(
         function (s) { templates.push(s.slice(1, -1)); }
     );
-    templateText = qu.replace(reg, '<i><b>{}</b></i>');
+    templateText = qu.replace(reg, '<span class="highlighter">{}</span>');
     return true;
 }
 
