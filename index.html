@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>My test page</title>
+    <link href="style.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <h1>Mozilla is cool</h1>
+
+    <p>At Mozilla, we’re a global community of</p>
+    
+    <ul> <!-- changed to list in the tutorial -->
+      <li>technologists</li>
+      <li>thinkers</li>
+      <li>builders</li>
+    </ul>
+
+    <form name="TurkerInput" onsubmit="validate(); return false;">
+        <div>
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="Website" />
+        </div>
+        <div>
+            <label for="question">Question template:</label>
+            <textarea id="question" name="Question"></textarea>
+        </div>
+
+        <div class="button">
+            <button type="submit">Continue</button>
+        </div>
+    </form>
+
+  <script src="main.js"></script>
+  </body>
+</html>
