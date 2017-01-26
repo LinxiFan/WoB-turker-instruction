@@ -4,15 +4,15 @@ var templates = [];
 var templateText = '';
 var NUM_ROW = 5;
 
-function validate() {
+function parse() {
     var website = document.TurkerInput.Website.value;
-    get_templates(document.TurkerInput.Question);
+    var is_valid = get_templates(document.TurkerInput.Question);
     console.log(website);
     console.log(templates);
-    if (!templates)
+    if (!is_valid)
         return false;
 
-    create_table_form(templates);
+    create_table_form();
     return true;
 }
 
@@ -28,8 +28,8 @@ function get_templates(question) {
     matches.forEach(
         function (s) { templates.push(s.slice(1, -1)); }
     );
-
     templateText = question.value.replace(reg, '{}');
+    return true;
 }
 
 function create_table_form() {
