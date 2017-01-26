@@ -1,10 +1,22 @@
 'use strict';
 
-var templates = [];
-var templateText = '';
-var NUM_ROW = 5;
+var templates = [],
+    templateText = '',
+    NUM_ROW = 5,
+    BodyNode = document.getElementsByTagName('body')[0], 
+    ArgTableNode,
+    BulletListNode;
 
 function parse() {
+    if (ArgTableNode) {
+        BodyNode.removeChild(ArgTableNode);
+        ArgTableNode = undefined;
+    }
+    if (BulletListNode) {
+        BodyNode.removeChild(BulletListNode);
+        BulletListNode = undefined;
+    }
+
     var website = document.TurkerInput.Website.value;
     var is_valid = get_templates(document.TurkerInput.Question);
     console.log(website);
@@ -18,7 +30,8 @@ function parse() {
 
 function get_templates(question) {
     var reg = /\(([^)]+)\)/g;
-    var matches = question.value.match(reg);
+    var qu = question.value;
+    var matches = qu.match(reg);
     if (!matches) {
         alert('You must have at least one (...) template');
         question.value = '';
@@ -28,18 +41,17 @@ function get_templates(question) {
     matches.forEach(
         function (s) { templates.push(s.slice(1, -1)); }
     );
-    templateText = question.value.replace(reg, '{}');
+    templateText = qu.replace(reg, '{}');
     return true;
 }
 
 function create_table_form() {
     // table for question template instantiation
-    var form = createNode('form', 
-                          document.getElementsByTagName('body')[0], 
+    ArgTableNode = createNode('form', BodyNode,
                           ['name', 'ArgTable', 
-                          'onsubmit', 'print_table(); return false;']);
+                          'onsubmit', 'submitTable(); return false;']);
 
-    var table = createNode('table', form);
+    var table = createNode('table', ArgTableNode);
     //table.setAttribute('border', '1');
 
     var firstrow = createNode('tr', table);
@@ -64,7 +76,11 @@ function create_table_form() {
     addTextNode(button, 'Submit');
 }
 
-function print_table() {
+function submitTable() {
+    if (BulletListNode) {
+        BodyNode.removeChild(BulletListNode);
+        BulletListNode = undefined;
+    }
     var matrix = [];
     for (var r = 0; r < NUM_ROW; r++) {
         var row = [];
@@ -75,10 +91,9 @@ function print_table() {
     }
     console.log(matrix);
     // display
-    var bulletList = createNode('ul', 
-                          document.getElementsByTagName('body')[0]);
+    BulletListNode = createNode('ul', BodyNode);
     for (var r = 0; r < NUM_ROW; r++) {
-        var entry = createNode('li', bulletList);
+        var entry = createNode('li', BulletListNode);
         addTextNode(entry, strformat(templateText, ...matrix[r]));
     }
 }
