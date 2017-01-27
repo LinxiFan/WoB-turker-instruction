@@ -8,6 +8,21 @@ var templates = [],
     BulletListNode,
     TableCache = {}; // cache already entered text
 
+/* submit to the backend
+    url - link to the webpage.
+    question - the question turkers ask
+    data - a list of dicts, each dict is key-value pairs that are arguments of the question.
+ */
+function submit(url, question, data) {
+    $.post('/submit', {
+        'url': url,
+        'question': JSON.stringify(question),
+        'data': JSON.stringify(data)
+    }, function(response) {
+        console.log('submit', response);
+    })
+}
+
 function parse() {
     if (ArgTableNode) {
         BodyNode.removeChild(ArgTableNode);
