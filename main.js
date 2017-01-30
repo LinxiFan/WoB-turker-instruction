@@ -1,6 +1,8 @@
 'use strict';
 
 var templates = [],
+    originalQuestion = '',
+    websiteURL = '',
     templateText = '',
     NUM_ROW = 5,
     BodyNode = document.getElementsByTagName('body')[0], 
@@ -33,9 +35,9 @@ function parse() {
         BulletListNode = undefined;
     }
 
-    var website = document.TurkerInput.Website.value;
+    websiteURL = document.TurkerInput.Website.value;
     var is_valid = getTemplates(document.TurkerInput.Question);
-    console.log(website);
+    console.log(websiteURL);
     console.log(templates);
     if (!is_valid)
         return false;
@@ -46,7 +48,7 @@ function parse() {
 
 function getTemplates(question) {
     var reg = /\(([^)]+)\)/g;
-    var qu = question.value;
+    var qu = originalQuestion = question.value;
     var matches = qu.match(reg);
     if (!matches) {
         alert('You must have at least one (...) template');
@@ -126,7 +128,14 @@ function previewTable() {
 
 function submitForm() {
     var matrix = previewTable();
-    alert('You have successfully submitted the form! Thanks!');
+    var D = []; // list of dicts of blank args
+    for (var r = 0; r < matrix.length; r++) {
+        var entry = {};
+        for (var c = 0; c < templates.length; c++)
+            entry[templates[c]] = matrix[r][c];
+        D.push(entry);
+    }
+    submit(websiteURL, originalQuestion, D);
 }
 
 function createNode(name, ancestor, attrs) {
