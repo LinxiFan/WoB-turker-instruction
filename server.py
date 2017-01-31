@@ -35,6 +35,7 @@ handlers = [
     (r"/submit", SubmitHandler),
     (r"/(.*\.js)", web.StaticFileHandler, {"path": "./"}),
     (r"/(.*\.css)", web.StaticFileHandler, {"path": "./"}),
+    (r"/(.*\.html)", web.StaticFileHandler, {"path": "./"}),
 ]
 
 settings = {
