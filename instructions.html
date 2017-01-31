@@ -1,0 +1,175 @@
+
+<link rel="stylesheet" href="github-markdown.css">
+<style>
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+    }
+</style>
+<article class="markdown-body">
+    <h1 id="instruction">Instruction</h1>
+<p>Please think of a question whose answer will require some kind of web interaction. For example, one needs to do some searching and click a few buttons to find the best dining place on yelp.com. The answer should be visible on the webpage, i.e. it does not require complex reading comprehension or inference.</p>
+<p>Please provide the website and write the question as a template with meaningful blanks. It can be any appropriate website or website subdomain as long as the question template is flexible enough. Be creative!</p>
+<h1 id="walk-through">Walk-through</h1>
+<p>First, enter the URL of the website, e.g. <a href="http://yelp.com" class="uri">http://yelp.com</a></p>
+<p>Second, write down the question template with blanks. Please use parentheses &quot;( )&quot; to denote a blank. The words you write inside the parentheses should describe the meaning of the blank. Your question template should have at least one blank.</p>
+<p>For instance, enter your question template as</p>
+<pre><code>What is the best dining place that serves (type of food) near (geographic location)?</code></pre>
+<p>then click the <strong>Generate Table</strong> button (if you mistype, simply click <strong>Generate Table</strong> again and the table will be re-generated).</p>
+<p>Please fill out the generated table to complete the question. You should go to the website and verify that the completed questions <em>do</em> have an answer on that website. However, you don’t need to actually provide an answer.</p>
+<p>For example, fill out the table as</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>type of food</strong></th>
+<th><strong>geographic location</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Chinese food</td>
+<td>Manhattan, NY</td>
+</tr>
+<tr class="even">
+<td>ice cream</td>
+<td>Palo Alto</td>
+</tr>
+<tr class="odd">
+<td>barbeque</td>
+<td>Atlanta</td>
+</tr>
+<tr class="even">
+<td>seafood</td>
+<td>Notre Dame De Paris</td>
+</tr>
+<tr class="odd">
+<td>noodles</td>
+<td>Harvard University</td>
+</tr>
+<tr class="even">
+<td>tacos</td>
+<td>Disney World, Orlando, Fl</td>
+</tr>
+<tr class="odd">
+<td>hamburger</td>
+<td>CA 94305</td>
+</tr>
+<tr class="even">
+<td>McDonald's</td>
+<td>Times Square</td>
+</tr>
+<tr class="odd">
+<td>Panda Express</td>
+<td>200 North Spring Street, Los Angeles</td>
+</tr>
+<tr class="even">
+<td>coffee</td>
+<td>downtown Seattle</td>
+</tr>
+</tbody>
+</table>
+<p>Click <strong>Preview completed questions</strong> button to verify the list of completed templates before you click <strong>Submit</strong>. If you have a typo in the table, correct the entry and press <strong>Preview completed questions</strong> again.</p>
+<h1 id="examples">Examples</h1>
+<h2 id="good-example-1">Good example 1</h2>
+<p>Website: <a href="http://www.apple.com/shop/" class="uri">http://www.apple.com/shop/</a></p>
+<p>Question template:</p>
+<pre><code>How much is (apple product)?</code></pre>
+<p>Fill out the table:</p>
+<table>
+<thead>
+<tr class="header">
+<th>apple product</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>MacBook Air 13-inch</td>
+</tr>
+<tr class="even">
+<td>MacBook Pro 15-inch</td>
+</tr>
+<tr class="odd">
+<td>Apple TV</td>
+</tr>
+<tr class="even">
+<td>iMac 21.5-inch</td>
+</tr>
+<tr class="odd">
+<td>Mac mini</td>
+</tr>
+<tr class="even">
+<td>iPhone 7 32 Gb</td>
+</tr>
+<tr class="odd">
+<td>iPhone 7 plus 128 Gb</td>
+</tr>
+<tr class="even">
+<td>iPad Pro 12.9-inch</td>
+</tr>
+<tr class="odd">
+<td>iWatch series 2</td>
+</tr>
+<tr class="even">
+<td>Magic Mouse 2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="good-example-2">Good example 2</h2>
+<p>Website: <a href="https://www.wyndhamhotels.com/wyndham" class="uri">https://www.wyndhamhotels.com/wyndham</a></p>
+<p>Question template:</p>
+<pre><code>What is the name of a wyndham hotel if I want to book 
+(number of rooms) rooms for (number of guests) guests at 
+(geographic location) from (start date) to (end date)?</code></pre>
+<p>Fill out the table:</p>
+<table>
+<thead>
+<tr class="header">
+<th>number of rooms</th>
+<th>number of guests</th>
+<th>geographic location</th>
+<th>start date</th>
+<th>end date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2</td>
+<td>4</td>
+<td>Las Vegas, NV, US</td>
+<td>02/20/17</td>
+<td>02/25/17</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>3</td>
+<td>Yosemite Park</td>
+<td>03/11/17</td>
+<td>03/14/17</td>
+</tr>
+<tr class="odd">
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="even">
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<h2 id="bad-example">Bad example</h2>
+<p>Website: wikipedia.org</p>
+<p>Question template:</p>
+<pre><code>Who is the (N-th) president of the United States?</code></pre>
+<p>This is a bad template because the answer requires too much reading comprehension. In general, a page with very dense informative text, such as wikipedia.org, is not a good website for question templates.</p>
+
+</article>
+
