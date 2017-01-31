@@ -3,7 +3,7 @@ import sys
 
 HTML = \
 '''
-<link rel="stylesheet" href="github-markdown.css">
+<link rel="stylesheet" href="css/github-markdown.css">
 <style>
     .markdown-body {
         box-sizing: border-box;
