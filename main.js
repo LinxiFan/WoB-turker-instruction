@@ -123,8 +123,10 @@ function createTableForm() {
     addNewLine(div);
     //var button = createNode('button', div, ['type', 'button', 'onclick', 'previewTable()']);
     //addTextNode(button, 'Preview completed questions');
-    var button2 = createNode('button', div, ['type', 'submit']);
-    addTextNode(button2, 'Submit');
+    var button2 = createNode('a', div, ['class', 'fancybutton']);
+    button2.innerHTML = '<span>Submit</span>';
+    // addTextNode(button2, 'Submit');
+    button2.onclick = submitForm;
 
     var instruction = createNode('tr', ArgTableNode, ['class', 'example']);
     instruction.innerHTML = 'A live preview will appear below as you fill out the table. The values you\'ve entered will be preserved, so feel free to change the question template if you need to.<br>Please <b>carefully verify</b> the completed questions before you click "submit". You will receive a confirmation code after submission.';
