@@ -139,7 +139,10 @@ function previewTable() {
         var row = [];
         for (var c = 0; c < templates.length; c++) {
             var val = document.ArgTable['input-'+r+'-'+c].value;
-            row.push(val);
+            if (val)
+                row.push(val);
+            else
+                row.push('___');
             TableCache[templates[c]].push(val);
         }
         matrix.push(row);
@@ -175,11 +178,21 @@ function submitForm() {
     var D = []; // list of dicts of blank args
     for (var r = 0; r < matrix.length; r++) {
         var entry = {};
-        for (var c = 0; c < templates.length; c++)
+        for (var c = 0; c < templates.length; c++) {
+            if (matrix[r][c] === '___') {
+                alert('Please fill out all the blanks.\nMissing value at row ' + (r+1) + ' and column ' + (c+1));
+                return;
+            }
             entry[templates[c]] = matrix[r][c];
+        }
         D.push(entry);
     }
-    var code = upload(document.TurkerInput.Website.value, originalQuestion, D);
+    var website = document.TurkerInput.Website.value;
+    if (!website) {
+        alert('Website field cannot be blank!');
+        return;
+    }
+    var code = upload(website, originalQuestion, D);
     ConfirmationNode = createNode('p', BodyNode);
     ConfirmationNode.innerHTML = 'Your submission code is <br><span class="highlighter">' + code + '</span><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
 }
