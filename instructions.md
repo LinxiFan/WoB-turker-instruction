@@ -16,9 +16,9 @@ For instance, enter your question template as
 What is the best dining place that serves (type of food) near (geographic location)?
 ```
 
-then click the **Generate Table** button (if you mistype, simply click **Generate Table** again and the table will be re-generated).
+A table will be dynamically generated with column titles "type of food" and "geographic location" as you type out the template.
 
-Please fill out the generated table to complete the question. You should go to the website and verify that the completed questions _do_ have an answer on that website. However, you don’t need to actually provide an answer.
+Please fill out the table to complete the question. A live preview will be displayed below the table as you type. You should go to the website and verify that the completed questions _do_ have an answer on that website. However, you don’t need to actually provide an answer.
 
 For example, fill out the table as
 
@@ -35,7 +35,7 @@ For example, fill out the table as
 | Panda Express 	| 200 North Spring Street, Los Angeles 	|
 | coffee        	| downtown Seattle                     	|
 
-Click **Preview completed questions** button to verify the list of completed templates before you click **Submit**. If you have a typo in the table, correct the entry and press **Preview completed questions** again. 
+Please carefully verify the completed questions before you click **submit**. Upon submission, you will receive a confirmation code, which you should copy and paste back to the Mechanical Turk page.
 
 # Examples
 
