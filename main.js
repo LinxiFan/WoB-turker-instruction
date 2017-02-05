@@ -2,7 +2,6 @@
 
 var templates = [],
     originalQuestion = '',
-    websiteURL = '',
     templateText = '',
     NUM_ROW = 10,
     BodyNode = document.getElementsByTagName('body')[0], 
@@ -21,14 +20,16 @@ function upload(url, question, data) {
     removePreview();
     question = JSON.stringify(question);
     data = JSON.stringify(data);
-    $.post('/submit', {
+    var submission = {
         'url': url,
         'question': question,
         'data': data
-    }, function(response) {
-        console.log('uploaded: ', response);
-    })
-    console.log(question + data);
+    };
+    console.log(submission);
+    $.post('/submit', submission, 
+        function(response) {
+            console.log('uploaded: ', response);
+        });
     return md5(question + data);
 }
 
@@ -57,15 +58,17 @@ function removePreview() {
 function parse() {
     removeTable();
     removePreview();
-    websiteURL = document.TurkerInput.Website.value;
     var is_valid = getTemplates(document.TurkerInput.Question);
-    console.log(websiteURL);
-    console.log(templates);
+    // console.log(templates);
     if (!is_valid) 
         return false;
 
     createTableForm();
     return true;
+}
+
+function hasDuplicates(array) {
+        return (new Set(array)).size !== array.length;
 }
 
 function getTemplates(question) {
@@ -81,6 +84,10 @@ function getTemplates(question) {
     matches.forEach(
         function (s) { templates.push(s.slice(1, -1)); }
     );
+    if (hasDuplicates(templates)) {
+        alert('The template must not have duplicate blank descriptions. \nFor example, "What is the best (place) around (place)?" is not allowed. \nYou have to provide different descriptions: "What is the best (dining place) around (tourist attraction)?"');
+        return false;
+    }
     templateText = qu.replace(reg, '<span class="highlighter">{}</span>');
     return true;
 }
@@ -107,7 +114,7 @@ function createTableForm() {
                                        ['type', 'text', 
                                        'name', 'input-'+r+'-'+c, 
                                        'style', 'width:250px']);
-            inputnode.oninput = previewTable;
+            inputnode.onclick = inputnode.oninput = previewTable;
             if (templates[c] in TableCache)
                 inputnode.value = TableCache[templates[c]][r];
         }
@@ -137,7 +144,7 @@ function previewTable() {
         }
         matrix.push(row);
     }
-    console.log(matrix);
+    // console.log(matrix);
     // display
     /*
     PreviewNode = createNode('ul', BodyNode);
@@ -172,7 +179,7 @@ function submitForm() {
             entry[templates[c]] = matrix[r][c];
         D.push(entry);
     }
-    var code = upload(websiteURL, originalQuestion, D);
+    var code = upload(document.TurkerInput.Website.value, originalQuestion, D);
     ConfirmationNode = createNode('p', BodyNode);
     ConfirmationNode.innerHTML = 'Your submission code is <br><span class="highlighter">' + code + '</span><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
 }

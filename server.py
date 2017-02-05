@@ -49,4 +49,5 @@ if __name__ == "__main__":
     application = web.Application(handlers, **settings)
     port = int(os.environ.get("PORT", 8080))
     application.listen(port, address="0.0.0.0")
+    print('localhost:8080')
     ioloop.IOLoop.current().start()
