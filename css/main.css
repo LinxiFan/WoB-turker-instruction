@@ -11,7 +11,7 @@ form, .roundrect {
 }
 
 .example {
-    color: #A9A9A9;
+    color: #808080;
 }
 
 .collapsed {
@@ -68,5 +68,5 @@ textarea {
 .highlighter {
     font-style: italic;
     font-weight: bold;
-    background-color: yellow;
+    /*background-color: yellow;*/
 }

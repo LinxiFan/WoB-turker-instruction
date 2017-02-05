@@ -105,7 +105,8 @@ function createTableForm() {
     var firstrow = createNode('tr', table);
     for (var i = 0; i < templates.length; i++) {
         var entry = createNode('td', firstrow);
-        addTextNode(entry, templates[i]);
+        entry.innerHTML = '<b>' + templates[i] + '</b>';
+        // addTextNode(entry, templates[i]);
     }
 
     for (var r = 0; r < NUM_ROW; r++) {
@@ -125,10 +126,6 @@ function createTableForm() {
     addNewLine(div);
     //var button = createNode('button', div, ['type', 'button', 'onclick', 'previewTable()']);
     //addTextNode(button, 'Preview completed questions');
-    var button2 = createNode('a', div, ['class', 'fancybutton']);
-    button2.innerHTML = '<span>Submit</span>';
-    // addTextNode(button2, 'Submit');
-    button2.onclick = submitForm;
 
     var instruction = createNode('tr', ArgTableNode, ['class', 'example']);
     instruction.innerHTML = 'A live preview will appear below as you fill out the table. The values you\'ve entered will be preserved, so feel free to change the question template if you need to.<br>Please <b>carefully verify</b> the completed questions before you click "submit". You will receive a confirmation code after submission.';
@@ -174,6 +171,12 @@ function previewTable() {
         }
     }
 
+    addNewLine(PreviewNode_);
+    var submitButton = createNode('a', PreviewNode_, ['class', 'fancybutton']);
+    submitButton.innerHTML = '<span>Submit</span>';
+    // addTextNode(button2, 'Submit');
+    submitButton.onclick = submitForm;
+
     return matrix;
 }
 
@@ -198,7 +201,7 @@ function submitForm() {
     }
     var code = upload(website, originalQuestion, D);
     ConfirmationNode = createNode('p', BodyNode);
-    ConfirmationNode.innerHTML = 'Your submission code is <br><span class="highlighter">' + code + '</span><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
+    ConfirmationNode.innerHTML = 'Your submission code is <br><br><span class="highlighter">' + code + '</span><br><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
 }
 
 function createNode(name, ancestor, attrs) {
