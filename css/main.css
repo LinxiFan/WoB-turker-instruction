@@ -8,6 +8,10 @@ form, .roundrect {
     border-radius: 1em;
 }
 
+.example {
+    color: #A9A9A9;
+}
+
 .collapsed {
     border-collapse: collapse;
 }

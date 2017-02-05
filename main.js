@@ -8,38 +8,60 @@ var templates = [],
     BodyNode = document.getElementsByTagName('body')[0], 
     ArgTableNode,
     PreviewNode,
+    ConfirmationNode,
     TableCache = {}; // cache already entered text
 
-/* submit to the backend
+/* upload to the backend
     url - link to the webpage.
     question - the question turkers ask
     data - a list of dicts, each dict is key-value pairs that are arguments of the question.
  */
-function submit(url, question, data) {
+function upload(url, question, data) {
+    removeTable();
+    removePreview();
+    question = JSON.stringify(question);
+    data = JSON.stringify(data);
     $.post('/submit', {
         'url': url,
-        'question': JSON.stringify(question),
-        'data': JSON.stringify(data)
+        'question': question,
+        'data': data
     }, function(response) {
-        console.log('submit', response);
+        console.log('uploaded: ', response);
     })
+    console.log(question + data);
+    return md5(question + data);
 }
 
-function parse() {
+/* add instant key change to question template
+ */
+document.TurkerInput.Question.oninput = parse;
+
+function removeTable() {
     if (ArgTableNode) {
         BodyNode.removeChild(ArgTableNode);
         ArgTableNode = undefined;
     }
+}
+
+function removePreview() {
     if (PreviewNode) {
         BodyNode.removeChild(PreviewNode);
         PreviewNode = undefined;
     }
+    if (ConfirmationNode) {
+        BodyNode.removeChild(ConfirmationNode);
+        ConfirmationNode = undefined;
+    }
+}
 
+function parse() {
+    removeTable();
+    removePreview();
     websiteURL = document.TurkerInput.Website.value;
     var is_valid = getTemplates(document.TurkerInput.Question);
     console.log(websiteURL);
     console.log(templates);
-    if (!is_valid)
+    if (!is_valid) 
         return false;
 
     createTableForm();
@@ -51,8 +73,8 @@ function getTemplates(question) {
     var qu = originalQuestion = question.value;
     var matches = qu.match(reg);
     if (!matches) {
-        alert('You must have at least one (...) template');
-        question.value = '';
+        // alert('You must have at least one (...) template');
+        // question.value = '';
         return false;
     }
     templates = [];
@@ -71,7 +93,6 @@ function createTableForm() {
 
     var table = createNode('table', ArgTableNode);
     //table.setAttribute('border', '1');
-
     var firstrow = createNode('tr', table);
     for (var i = 0; i < templates.length; i++) {
         var entry = createNode('td', firstrow);
@@ -86,23 +107,24 @@ function createTableForm() {
                                        ['type', 'text', 
                                        'name', 'input-'+r+'-'+c, 
                                        'style', 'width:250px']);
+            inputnode.oninput = previewTable;
             if (templates[c] in TableCache)
                 inputnode.value = TableCache[templates[c]][r];
         }
     }
     var div = createNode('div', table);
     addNewLine(div);
-    var button = createNode('button', div, ['type', 'button', 'onclick', 'previewTable()']);
-    addTextNode(button, 'Preview completed questions');
+    //var button = createNode('button', div, ['type', 'button', 'onclick', 'previewTable()']);
+    //addTextNode(button, 'Preview completed questions');
     var button2 = createNode('button', div, ['type', 'submit']);
     addTextNode(button2, 'Submit');
+
+    var instruction = createNode('tr', ArgTableNode, ['class', 'example']);
+    instruction.innerHTML = 'A live preview will appear below as you fill out the table. The values you\'ve entered will be preserved, so feel free to change the question template if you need to.<br>Please <b>carefully verify</b> the completed questions before you click "submit". You will receive a confirmation code after submission.';
 }
 
 function previewTable() {
-    if (PreviewNode) {
-        BodyNode.removeChild(PreviewNode);
-        PreviewNode = undefined;
-    }
+    removePreview();
     for (var c = 0; c < templates.length; c++)
         TableCache[templates[c]] = [];
     var matrix = [];
@@ -150,9 +172,9 @@ function submitForm() {
             entry[templates[c]] = matrix[r][c];
         D.push(entry);
     }
-    var confirmation = createNode('p', BodyNode);
-    confirmation.innerHTML = 'Your submission code is <br><span class="highlighter">{}</span><br>Please copy and paste it back to the Amazon Mechanical Turk page.'
-    submit(websiteURL, originalQuestion, D);
+    var code = upload(websiteURL, originalQuestion, D);
+    ConfirmationNode = createNode('p', BodyNode);
+    ConfirmationNode.innerHTML = 'Your submission code is <br><span class="highlighter">' + code + '</span><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
 }
 
 function createNode(name, ancestor, attrs) {

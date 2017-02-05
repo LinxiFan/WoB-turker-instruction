@@ -8,6 +8,7 @@
     src="https://code.jquery.com/jquery-2.2.4.min.js"
     integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
     crossorigin="anonymous"></script>
+    <script src="md5.min.js"></script>
   </head>
   <body>
     <h1>Create Web Question</h1>
@@ -19,16 +20,26 @@
             <label for="website">Website:</label>
             <input type="text" id="website" name="Website" />
         </div>
+        <div class="example">
+            <label>Example: </label>
+            <label><b><i>https://www.yelp.com/</i></b></label>
+        </div>
         <div>
             <label for="question">Question template:</label>
             <textarea id="question" name="Question"></textarea>
         </div>
+        <div class="example">
+            <label>Example: </label>
+            <b><i>What is the best dining place that serves (type of food) near (geographic location)?</i></b>
+            A table with blanks will appear below as you type the template with parentheses.
+        </div>
 
+        <!--
         <div class="button">
             <button type="submit">Generate table</button>
         </div>
+        -->
     </form>
-
-  <script src="main.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
