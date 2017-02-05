@@ -7,7 +7,7 @@ var templates = [],
     NUM_ROW = 10,
     BodyNode = document.getElementsByTagName('body')[0], 
     ArgTableNode,
-    BulletListNode,
+    PreviewNode,
     TableCache = {}; // cache already entered text
 
 /* submit to the backend
@@ -30,9 +30,9 @@ function parse() {
         BodyNode.removeChild(ArgTableNode);
         ArgTableNode = undefined;
     }
-    if (BulletListNode) {
-        BodyNode.removeChild(BulletListNode);
-        BulletListNode = undefined;
+    if (PreviewNode) {
+        BodyNode.removeChild(PreviewNode);
+        PreviewNode = undefined;
     }
 
     websiteURL = document.TurkerInput.Website.value;
@@ -99,9 +99,9 @@ function createTableForm() {
 }
 
 function previewTable() {
-    if (BulletListNode) {
-        BodyNode.removeChild(BulletListNode);
-        BulletListNode = undefined;
+    if (PreviewNode) {
+        BodyNode.removeChild(PreviewNode);
+        PreviewNode = undefined;
     }
     for (var c = 0; c < templates.length; c++)
         TableCache[templates[c]] = [];
@@ -117,12 +117,27 @@ function previewTable() {
     }
     console.log(matrix);
     // display
-    BulletListNode = createNode('ul', BodyNode);
+    /*
+    PreviewNode = createNode('ul', BodyNode);
     for (var r = 0; r < NUM_ROW; r++) {
-        var entry = createNode('li', BulletListNode);
+        var entry = createNode('li', PreviewNode);
         entry.innerHTML = strformat(templateText, ...matrix[r]);
         // addTextNode(entry, strformat(templateText, ...matrix[r]));
     }
+    */
+    PreviewNode = createNode('table', BodyNode, ['class', 'roundrect']);
+    var PreviewNode_ = createNode('table', PreviewNode, ['class', 'collapsed']);
+    for (var r = -1; r < NUM_ROW; r++) {
+        var entry = createNode('tr', PreviewNode_);
+        if (r == -1) {
+            entry = createNode('td', entry);
+            entry.innerHTML = '<h2><b>Preview completed question</b></h2>';
+        } else {
+            entry = createNode('td', entry, ['class', 'tdborder']);
+            entry.innerHTML = strformat(templateText, ...matrix[r]);
+        }
+    }
+
     return matrix;
 }
 
@@ -135,6 +150,8 @@ function submitForm() {
             entry[templates[c]] = matrix[r][c];
         D.push(entry);
     }
+    var confirmation = createNode('p', BodyNode);
+    confirmation.innerHTML = 'Your submission code is <br><span class="highlighter">{}</span><br>Please copy and paste it back to the Amazon Mechanical Turk page.'
     submit(websiteURL, originalQuestion, D);
 }
 

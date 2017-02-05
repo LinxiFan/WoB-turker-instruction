@@ -1,4 +1,4 @@
-form {
+form, .roundrect {
     /* Just to center the form on the page */
     margin: 0 auto;
     width: 90%;
@@ -6,6 +6,14 @@ form {
     padding: 1em;
     border: 1px solid #CCC;
     border-radius: 1em;
+}
+
+.collapsed {
+    border-collapse: collapse;
+}
+
+.tdborder {
+    border: 2px solid #ffae19;
 }
 
 form div + div {
