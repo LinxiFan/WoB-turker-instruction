@@ -20,17 +20,19 @@ function upload(url, question, data) {
     removePreview();
     question = JSON.stringify(question);
     data = JSON.stringify(data);
+    var code = md5(question + data);
     var submission = {
         'url': url,
         'question': question,
-        'data': data
+        'data': data,
+        'code': code
     };
     console.log(submission);
     $.post('/submit', submission, 
         function(response) {
             console.log('uploaded: ', response);
         });
-    return md5(question + data);
+    return code;
 }
 
 /* add instant key change to question template

@@ -20,11 +20,13 @@ class SubmitHandler(web.RequestHandler):
         data = json.loads(self.get_argument('data'))
         url = self.get_argument('url')
         question = json.loads(self.get_argument('question'))
+        code = self.get_argument('code')
 
         db.write(json.dumps({
             'data': data,
             'url': url,
-            'question': question
+            'question': question,
+            'code': code
         }) + '\n')
         db.flush()
         self.write('OK')
