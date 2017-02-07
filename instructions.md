@@ -8,7 +8,7 @@ Please provide the website and write the question as a template with meaningful 
 
 First, enter the URL of the website, e.g. [http://yelp.com](http://yelp.com)
 
-Second, write down the question template with blanks. Please use parentheses "( )" to denote a blank. The words you write inside the parentheses should describe the meaning of the blank. Your question template should have at least one blank. 
+Second, write down the question template with blanks. Please use parentheses "( )" to denote a blank. The words you write inside the parentheses should describe the meaning of the blank. Your question template should have at least **two** blanks. The more blanks the better! 
 
 For instance, enter your question template as 
 
@@ -41,27 +41,22 @@ Please carefully verify the completed questions before you click **submit**. Upo
 
 ## Good example 1
 
-Website: [http://www.apple.com/shop/](http://www.apple.com/shop/)
+Website: http://www.bankrate.com/calculators/mortgages/loan-calculator.aspx
 
 Question template:
 ```
-How much is (apple product)?
+What is the monthly payment for (loan amount) in (loan term in years) with interest rate (rate)?
 ```
 
 Fill out the table:
 
-| apple product        	|
-|----------------------	|
-| MacBook Air 13-inch  	|
-| MacBook Pro 15-inch  	|
-| Apple TV             	|
-| iMac 21.5-inch       	|
-| Mac mini             	|
-| iPhone 7 32 Gb       	|
-| iPhone 7 plus 128 Gb 	|
-| iPad Pro 12.9-inch   	|
-| iWatch series 2      	|
-| Magic Mouse 2        	|
+| loan amount 	| loan term in years 	| rate 	|
+|-----------------	|------------------	|---------------------	|
+| $5000               	| 3                	| 1.5%   	|
+| $20000               	| 10                	| 3.44%       	|
+| $39025              	| 2                	| 3.27%       	|
+| ...              	| ...                	| ...       	|
+| ...              	| ...                	| ...       	|
 
 ## Good example 2
 
@@ -89,7 +84,7 @@ Website: wikipedia.org
 
 Question template:
 ```
-Who is the (N-th) president of the United States?
+Who is the (N-th) president of (country)?
 ```
 
 This is a bad template because the answer requires too much reading comprehension. In general, a page with very dense informative text, such as wikipedia.org, is not a good website for question templates. 
