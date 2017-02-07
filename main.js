@@ -133,6 +133,12 @@ function createTableForm() {
 
 function previewTable() {
     removePreview();
+
+    if (templates.length < 2) {
+        alert('You must have at least two blanks in the question template!');
+        return;
+    }
+
     for (var c = 0; c < templates.length; c++)
         TableCache[templates[c]] = [];
     var matrix = [];
@@ -182,6 +188,16 @@ function previewTable() {
 
 function submitForm() {
     var matrix = previewTable();
+    // check duplicate in rows
+    var check_dup_row = [];
+    matrix.forEach(
+        function (row) { check_dup_row.push(JSON.stringify(row)); }
+    );
+    if (hasDuplicates(check_dup_row)) {
+        alert('There are duplicates in the table!\nPlease make sure each row is unique.');
+        return;
+    }
+
     var D = []; // list of dicts of blank args
     for (var r = 0; r < matrix.length; r++) {
         var entry = {};
