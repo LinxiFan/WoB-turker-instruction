@@ -40,6 +40,7 @@ handlers = [
     (r"/(.*\.js)", web.StaticFileHandler, {"path": "./"}),
     (r"/(.*\.css)", web.StaticFileHandler, {"path": "./"}),
     (r"/(.*\.html)", web.StaticFileHandler, {"path": "./"}),
+    (r"/(.*\.jsonl)", web.StaticFileHandler, {"path": "./"}),
 ]
 
 settings = {
