@@ -35,6 +35,18 @@ function upload(url, question, data) {
     return code;
 }
 
+/*
+ * Better alert message
+ */
+function swal_html(title, text, type) {
+    swal({
+        title: title,
+        text: text,
+        type: type,
+        html: true
+    });
+}
+
 /* add instant key change to question template
  */
 document.TurkerInput.Question.oninput = parse;
@@ -87,7 +99,9 @@ function getTemplates(question) {
         function (s) { templates.push(s.slice(1, -1)); }
     );
     if (hasDuplicates(templates)) {
-        alert('The template must not have duplicate blank descriptions. \nFor example, "What is the best (place) around (place)?" is not allowed. \nYou have to provide different descriptions: "What is the best (dining place) around (tourist attraction)?"');
+        swal_html('Duplicate blank descriptions',
+             'The template <b>must not have duplicate blank descriptions</b>.<br>For example, <i>"What is the best (place) around (place)?"</i> is not allowed. <br>You have to provide different descriptions: <i>"What is the best (dining place) around (tourist attraction)</i>?"',
+             'error');
         return false;
     }
     templateText = qu.replace(reg, '<span class="highlighter">{}</span>');
@@ -135,7 +149,9 @@ function previewTable() {
     removePreview();
 
     if (templates.length < 2) {
-        alert('You must have at least two blanks in the question template!');
+        swal_html('Not enough blanks', 
+             'You must have <b>at least two blanks</b> in the question template!', 
+             'error');
         return;
     }
 
@@ -188,36 +204,44 @@ function previewTable() {
 
 function submitForm() {
     var matrix = previewTable();
-    // check duplicate in rows
-    var check_dup_row = [];
-    matrix.forEach(
-        function (row) { check_dup_row.push(JSON.stringify(row)); }
-    );
-    if (hasDuplicates(check_dup_row)) {
-        alert('There are duplicates in the table!\nPlease make sure each row is unique.');
-        return;
-    }
-
     var D = []; // list of dicts of blank args
     for (var r = 0; r < matrix.length; r++) {
         var entry = {};
         for (var c = 0; c < templates.length; c++) {
             if (matrix[r][c] === '___') {
-                alert('Please fill out all the blanks.\nMissing value at row ' + (r+1) + ' and column ' + (c+1));
+                swal_html('Missing value', 
+                     'Please fill out all the blanks.<br>Missing value at <b>row ' + (r+1) + ' and column ' + (c+1) + '</b>',
+                     'error');
                 return;
             }
             entry[templates[c]] = matrix[r][c];
         }
         D.push(entry);
     }
+
+    // check duplicate in rows
+    var check_dup_row = [];
+    matrix.forEach(
+        function (row) { check_dup_row.push(JSON.stringify(row)); }
+    );
+    if (hasDuplicates(check_dup_row)) {
+        swal_html('Duplicate rows',
+             'There are duplicates in the table!<br>Please make sure each row is unique.',
+             'error');
+        return;
+    }
+
     var website = document.TurkerInput.Website.value;
     if (!website) {
-        alert('Website field cannot be blank!');
+        swal({title: 'Website field cannot be blank!', type:'error'});
         return;
     }
     var code = upload(website, originalQuestion, D);
     ConfirmationNode = createNode('p', BodyNode);
     ConfirmationNode.innerHTML = 'Your submission code is <br><br><span class="highlighter">' + code + '</span><br><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
+    swal('Thanks!', 
+         'You have successfully completed the task. Please copy and paste the submission code back to the Amazon Mechanical Turk page.',
+         'success');
 }
 
 function createNode(name, ancestor, attrs) {
