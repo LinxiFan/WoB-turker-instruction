@@ -49,7 +49,7 @@ function swal_html(title, text, type) {
 
 /* add instant key change to question template
  */
-document.TurkerInput.Question.oninput = parse;
+document.TurkerInput.Question.oninput = parseTemplate;
 
 function removeTable() {
     if (ArgTableNode) {
@@ -69,9 +69,10 @@ function removePreview() {
     }
 }
 
-function parse() {
+function parseTemplate() {
     removeTable();
     removePreview();
+    checkWebsite();
     var is_valid = getTemplates(document.TurkerInput.Question);
     // console.log(templates);
     if (!is_valid) 
@@ -79,6 +80,24 @@ function parse() {
 
     createTableForm();
     return true;
+}
+
+/*
+ * We don't want yelp.com anymore
+ */
+function checkWebsite() {
+    var website = document.TurkerInput.Website.value;
+    if (!website) {
+        swal({title: 'Website field cannot be blank!', type:'error'});
+        return;
+    }
+    if (website.includes("yelp.com")) {
+        swal_html('Be creative!',
+                  'Please do not use <a>yelp.com</a> or its subdomains. Think of a more interesting website.',
+                  'error');
+        return;
+    }
+    return website;
 }
 
 function hasDuplicates(array) {
@@ -231,11 +250,9 @@ function submitForm() {
         return;
     }
 
-    var website = document.TurkerInput.Website.value;
-    if (!website) {
-        swal({title: 'Website field cannot be blank!', type:'error'});
-        return;
-    }
+    var website = checkWebsite();
+    if (!website) return;
+
     var code = upload(website, originalQuestion, D);
     ConfirmationNode = createNode('p', BodyNode);
     ConfirmationNode.innerHTML = 'Your submission code is <br><br><span class="highlighter">' + code + '</span><br><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
