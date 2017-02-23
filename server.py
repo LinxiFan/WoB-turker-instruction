@@ -5,6 +5,9 @@ import random
 import os
 import json
 
+level1_json = 'data/level1.jsonl'
+
+
 def wrap_template(template):
     class TemplateHandler(web.RequestHandler):
         def get(self):
@@ -12,7 +15,10 @@ def wrap_template(template):
     return TemplateHandler
 
 
-db = open('data.jsonl', 'a')
+def update_level1db(dat):
+    with open(level1_json, 'a') as f:
+        print(dat, file=f)
+    print(dat)
 
 
 class SubmitHandler(web.RequestHandler):
@@ -21,16 +27,16 @@ class SubmitHandler(web.RequestHandler):
         url = self.get_argument('url')
         question = json.loads(self.get_argument('question'))
         code = self.get_argument('code')
+        semantic = self.get_argument('semantic')
 
         recv = json.dumps({
             'data': data,
             'url': url,
             'question': question,
-            'code': code
+            'code': code,
+            'semantic': semantic
         })
-        db.write(recv + '\n')
-        db.flush()
-        print(recv)
+        update_level1db(recv)
         self.write('OK')
 
 

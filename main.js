@@ -10,27 +10,32 @@ var templates = [],
     ConfirmationNode,
     TableCache = {}; // cache already entered text
 
+// semantic tag dropdown list
+var dropdown = document.getElementById("SemanticTag");
+
 /* upload to the backend
     url - link to the webpage.
+    semanticTag
     question - the question turkers ask
     data - a list of dicts, each dict is key-value pairs that are arguments of the question.
  */
-function upload(url, question, data) {
+function upload(url, semanticTag, question, data) {
     removeTable();
     removePreview();
     question = JSON.stringify(question);
     data = JSON.stringify(data);
-    var code = md5(question + data);
+    var code = md5(url + question);
     var submission = {
         'url': url,
         'question': question,
         'data': data,
-        'code': code
+        'code': code,
+        'semantic': semanticTag
     };
     console.log(submission);
     $.post('/submit', submission, 
         function(response) {
-            console.log('uploaded: ', response);
+            console.log('upload: ', response);
         });
     return code;
 }
@@ -117,6 +122,7 @@ function getTemplates(question) {
     matches.forEach(
         function (s) { templates.push(s.slice(1, -1)); }
     );
+    templates.push('ANSWER');
     if (hasDuplicates(templates)) {
         swal_html('Duplicate blank descriptions',
              'The template <b>must not have duplicate blank descriptions</b>.<br>For example, <i>"What is the best (place) around (place)?"</i> is not allowed. <br>You have to provide different descriptions: <i>"What is the best (dining place) around (tourist attraction)</i>?"',
@@ -161,13 +167,18 @@ function createTableForm() {
     //addTextNode(button, 'Preview completed questions');
 
     var instruction = createNode('tr', ArgTableNode, ['class', 'example']);
-    instruction.innerHTML = 'A live preview will appear below as you fill out the table. The values you\'ve entered will be preserved, so feel free to change the question template if you need to.<br>Please <b>carefully verify</b> the completed questions before you click "submit". You will receive a confirmation code after submission.';
+    instruction.innerHTML = `<br>A live preview will appear below as you fill out the table. 
+	 <br>Please <b>carefully verify</b> the completed questions and answers before you click "submit". 
+	 You will receive a confirmation code after submission.`;
 }
 
 function previewTable() {
+    if (!checkWebsite())
+	return;
+
     removePreview();
 
-    if (templates.length < 2) {
+    if (templates.length < 3) {
         swal_html('Not enough blanks', 
              'You must have <b>at least two blanks</b> in the question template!', 
              'error');
@@ -252,13 +263,22 @@ function submitForm() {
 
     var website = checkWebsite();
     if (!website) return;
+    
+    var semanticTag = dropdown.options[dropdown.selectedIndex].value;
+    if (semanticTag == 'undefined') {
+        swal_html('Missing category',
+             'Please select a category for your website from the dropdown list.',
+             'error');
+        return;
+    }
 
-    var code = upload(website, originalQuestion, D);
+    var code = upload(website, semanticTag, originalQuestion, D);
     ConfirmationNode = createNode('p', BodyNode);
     ConfirmationNode.innerHTML = 'Your submission code is <br><br><span class="highlighter">' + code + '</span><br><br>Please copy and paste it back to the Amazon Mechanical Turk page. <br>Thanks for your participation! We really appreciate your time.';
     swal('Thanks!', 
          'You have successfully completed the task. Please copy and paste the submission code back to the Amazon Mechanical Turk page.',
          'success');
+    dropdown.selectedIndex = 0;
 }
 
 function createNode(name, ancestor, attrs) {
