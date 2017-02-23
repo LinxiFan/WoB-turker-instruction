@@ -6,9 +6,14 @@ Please provide the website and write the question as a template with meaningful 
 
 # Walk-through
 
-First, enter the URL of the website, e.g. [http://yelp.com](http://yelp.com)
+First, enter the URL of the website, e.g. [http://yelp.com](http://yelp.com). 
 
-Second, write down the question template with blanks. Please use parentheses "( )" to denote a blank. The words you write inside the parentheses should describe the meaning of the blank. Your question template should have at least **two** blanks. The more blanks the better! 
+Please make sure your website is **mobile-friendly**. You can test [mobile-friendliness here](https://search.google.com/search-console/mobile-friendly). 
+Your submission will be **invalid** if the site doesn't pass the test.
+
+Second, select a category for your website from the dropdown list.
+
+Third, write down the question template with blanks. Please use parentheses "( )" to denote a blank. The words you write inside the parentheses should describe the meaning of the blank. Your question template should have at least **two** blanks. The more blanks the better! 
 
 For instance, enter your question template as 
 
@@ -16,24 +21,20 @@ For instance, enter your question template as
 What is the best dining place that serves (type of food) near (geographic location)?
 ```
 
-A table will be dynamically generated with column titles "type of food" and "geographic location" as you type out the template.
+A table will be dynamically generated with column titles "type of food" and "geographic location" as you type out the template. 
 
-Please fill out the table to complete the question. A live preview will be displayed below the table as you type. You should go to the website and verify that the completed questions _do_ have an answer on that website. However, you don’t need to actually provide an answer.
+Please fill out the table to complete the questions. Please also write down the answers you find on the website in the "ANSWER" column of the table. A live preview will be displayed below the table as you type. 
 
 For example, fill out the table as
 
-| **type of food**  	| **geographic location**                  	|
-|---------------	|--------------------------------------	|
-| Chinese food  	| Manhattan, NY                        	|
-| ice cream     	| Palo Alto                            	|
-| barbeque      	| Atlanta                              	|
-| seafood       	| Notre Dame De Paris                  	|
-| noodles       	| Harvard University                   	|
-| tacos         	| Disney World, Orlando, Fl            	|
-| hamburger     	| CA 94305                             	|
-| McDonald's    	| Times Square                         	|
-| Panda Express 	| 200 North Spring Street, Los Angeles 	|
-| coffee        	| downtown Seattle                     	|
+| **type of food**  	| **geographic location**           |  **ANSWER** |
+|---------------	|--------------------------------------	| ----------------|
+| Chinese food  	| Palo Alto                        	| Panda Express   |
+| hamburger     	| Notre Dame De Paris                             | McDonald's      |
+| fresh fruit     	| 112 Mercer St, Princeton, NJ          | Fruity Yogurt   | 
+| ramen             | downtown Manhattan                    | Ippudo East Village |
+| coffee        	| Disney World, Orlando, Fl             | Starbucks |
+| ...      	| ...                              	| ... |
 
 Please carefully verify the completed questions before you click **submit**. Upon submission, you will receive a confirmation code, which you should copy and paste back to the Mechanical Turk page.
 
